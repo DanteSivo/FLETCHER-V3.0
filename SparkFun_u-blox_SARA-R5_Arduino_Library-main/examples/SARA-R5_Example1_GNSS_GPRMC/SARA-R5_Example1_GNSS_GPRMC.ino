@@ -19,13 +19,13 @@
 
 */
 
-#include <SparkFun_u-blox_SARA-R5_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_u-blox_SARA-R5_Arduino_Library
+#include "SparkFun_u-blox_SARA-R5_Arduino_Library.h" //Click here to get the library: http://librarymanager/All#SparkFun_u-blox_SARA-R5_Arduino_Library
 
 // Uncomment the next line to connect to the SARA-R5 using hardware Serial1
-#define saraSerial Serial1
+//#define saraSerial Serial1
 
 // Uncomment the next line to create a SoftwareSerial object to pass to the SARA-R5 library instead
-//SoftwareSerial saraSerial(8, 9);
+SoftwareSerial saraSerial(8, 9);
 
 // Create a SARA_R5 object to use throughout the sketch
 // Usually we would tell the library which GPIO pin to use to control the SARA power (see below),

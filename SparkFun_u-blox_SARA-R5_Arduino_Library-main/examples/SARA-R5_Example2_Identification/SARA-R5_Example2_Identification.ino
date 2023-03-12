@@ -31,7 +31,7 @@
 #include <SparkFun_u-blox_SARA-R5_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_u-blox_SARA-R5_Arduino_Library
 
 // Uncomment the next line to connect to the SARA-R5 using hardware Serial1
-#define saraSerial Serial1
+#define saraSerial Serial
 
 // Uncomment the next line to create a SoftwareSerial object to pass to the SARA-R5 library instead
 //SoftwareSerial saraSerial(8, 9);
