@@ -47,13 +47,13 @@ void setup() {
 void loop()
 {
   //Get all parameters
-  Serial.print("\nAccelerometer:\n");
-  Serial.print(" X = ");
-  Serial.println(myIMU.readFloatAccelX(), 3);
-  Serial.print(" Y = ");
-  Serial.println(myIMU.readFloatAccelY(), 3);
-  Serial.print(" Z = ");
-  Serial.println(myIMU.readFloatAccelZ(), 3);
+//  Serial.print("\nAccelerometer:\n");
+//  Serial.print(" X = ");
+//  Serial.println(myIMU.readFloatAccelX(), 3);
+//  Serial.print(" Y = ");
+//  Serial.println(myIMU.readFloatAccelY(), 3);
+//  Serial.print(" Z = ");
+//  Serial.println(myIMU.readFloatAccelZ(), 3);
 
   Serial.print("\nGyroscope:\n");
   Serial.print(" X = ");
@@ -63,9 +63,9 @@ void loop()
   Serial.print(" Z = ");
   Serial.println(myIMU.readFloatGyroZ(), 3);
 
-  Serial.print("\nThermometer:\n");
-  Serial.print(" Degrees F = ");
-  Serial.println(myIMU.readTempF(), 3);
+//  Serial.print("\nThermometer:\n");
+//  Serial.print(" Degrees F = ");
+//  Serial.println(myIMU.readTempF(), 3);
 
   delay(1);
 }
