@@ -31,7 +31,7 @@ void setup() {
   //433E6 for Asia
   //866E6 for Europe
   //915E6 for North America
-  while (!LoRa.begin(433E6)) {
+  while (!LoRa.begin(915E6)) {
     Serial.println(".");
     delay(500);
   }

@@ -78,7 +78,7 @@ void setup()
   //433E6 for Asia
   //866E6 for Europe
   //915E6 for North America
-  while (!LoRa.begin(433E6)) {
+  while (!LoRa.begin(915E6)) {
     Serial.println(".");
     delay(500);
   }
@@ -86,6 +86,7 @@ void setup()
   // The sync word assures you don't get LoRa messages from other LoRa transceivers
   // ranges from 0-0xFF
   LoRa.setSyncWord(0xF3);
+  //LoRa.setTxPower(20, 0); // MAX Power! Requires PA0 Boost
 }
 
 void loop()
@@ -134,8 +135,9 @@ void loop()
     LoRa.endPacket();
 
     Serial.println();
+    SerialBT.println();
     counter++;
 
-    delay(1000);
+    delay(250);
   }
 }

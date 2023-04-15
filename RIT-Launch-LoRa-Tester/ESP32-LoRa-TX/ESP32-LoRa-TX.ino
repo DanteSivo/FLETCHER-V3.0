@@ -26,10 +26,18 @@ void setup() {
   //433E6 for Asia
   //866E6 for Europe
   //915E6 for North America
-  while (!LoRa.begin(433E6)) {
+  while (!LoRa.begin(915E6)) {
     Serial.println(".");
     delay(500);
   }
+
+  // Configure for maximum power
+  LoRa.setGain(6); // Max gain
+  LoRa.setSpreadingFactor(11);
+  LoRa.setSignalBandwidth(10.4E3);
+  LoRa.setTxPower(23);
+  //LoRa.setGain(1);
+  
    // Change sync word (0xF3) to match the receiver
   // The sync word assures you don't get LoRa messages from other LoRa transceivers
   // ranges from 0-0xFF
