@@ -32,10 +32,21 @@ void setup() {
   }
 
   // Configure for maximum power
-  LoRa.setGain(6); // Max gain
-  LoRa.setSpreadingFactor(11);
-  LoRa.setSignalBandwidth(10.4E3);
+  // LoRa.setGain(6); // Max gain
+  LoRa.setSpreadingFactor(12);
+  LoRa.setSignalBandwidth(125E3);
   LoRa.setTxPower(23);
+  //LoRa.writeRegister(0x9, 0xFF); // Set MAX Power limit
+
+  digitalWrite(ss, LOW);
+
+  SPI.beginTransaction(SPISettings(100E3, MSBFIRST, SPI_MODE0));
+  SPI.transfer(0x9);
+  SPI.transfer(0xFF);
+  SPI.endTransaction();
+
+  digitalWrite(ss, HIGH);
+  
   //LoRa.setGain(1);
   
    // Change sync word (0xF3) to match the receiver
@@ -43,6 +54,7 @@ void setup() {
   // ranges from 0-0xFF
   LoRa.setSyncWord(0xF3);
   Serial.println("LoRa Initializing OK!");
+  LoRa.dumpRegisters(Serial);
 }
 
 void loop() {

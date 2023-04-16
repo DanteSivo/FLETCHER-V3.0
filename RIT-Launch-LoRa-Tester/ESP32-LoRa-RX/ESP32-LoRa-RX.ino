@@ -29,8 +29,8 @@ void setup() {
     delay(500);
   }
 
-  LoRa.setSpreadingFactor(11);
-  LoRa.setSignalBandwidth(10.4E3);
+  LoRa.setSpreadingFactor(12);
+  LoRa.setSignalBandwidth(125E3);
   
    // Change sync word (0xF3) to match the receiver
   // The sync word assures you don't get LoRa messages from other LoRa transceivers

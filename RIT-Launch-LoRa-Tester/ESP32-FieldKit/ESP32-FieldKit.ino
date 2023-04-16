@@ -82,11 +82,18 @@ void setup()
     Serial.println(".");
     delay(500);
   }
+
+  LoRa.setSpreadingFactor(12);
+  LoRa.setSignalBandwidth(125E3);
+  LoRa.setTxPower(23);
    // Change sync word (0xF3) to match the receiver
   // The sync word assures you don't get LoRa messages from other LoRa transceivers
   // ranges from 0-0xFF
   LoRa.setSyncWord(0xF3);
-  //LoRa.setTxPower(20, 0); // MAX Power! Requires PA0 Boost
+  LoRa.dumpRegisters(Serial);
+  LoRa.dumpRegisters(SerialBT);
+  Serial.println("LoRa Initializing OK!");
+  SerialBT.println("LoRa Initializing OK!");
 }
 
 void loop()
@@ -98,33 +105,63 @@ void loop()
     LoRa.beginPacket();
     
     lastTime = millis(); //Update the timer
+
+    uint8_t GMThour = myGNSS.getHour();
+    if (GMThour > 4) {
+      GMThour = GMThour - 4;
+      Serial.print(GMThour);
+      LoRa.print(GMThour);
+      SerialBT.print(GMThour);
+    } else {
+      GMThour = 24-(4-GMThour);
+      Serial.print(GMThour);
+      LoRa.print(GMThour);
+      SerialBT.print(GMThour);
+    }
+    Serial.print(":");
+    LoRa.print(":");
+    SerialBT.print(":");
+
+    Serial.print(myGNSS.getMinute());
+    LoRa.print(myGNSS.getMinute());
+    SerialBT.print(myGNSS.getMinute());
+    Serial.print(":");
+    SerialBT.print(":");
+    LoRa.print(":");
     
-    long latitude = myGNSS.getLatitude();
-    Serial.print(F("Lat: "));
+    Serial.print(myGNSS.getSecond());
+    LoRa.print(myGNSS.getSecond());
+    SerialBT.print(myGNSS.getSecond());
+    Serial.print(":");
+    SerialBT.print(":");
+    LoRa.print(":");
+    
+    int32_t latitude = myGNSS.getLatitude();
+    Serial.print(F(" Lat: "));
     Serial.print(latitude);
-    SerialBT.print(F("Lat: "));
+    SerialBT.print(F(" Lat: "));
     SerialBT.print(latitude);
-    LoRa.print(F("Lat: "));
+    LoRa.print(F(" Lat: "));
     LoRa.print(latitude);
 
-    long longitude = myGNSS.getLongitude();
+    int32_t longitude = myGNSS.getLongitude();
     Serial.print(F(" Long: "));
-    Serial.print(longitude);
+    Serial.println(longitude);
     Serial.print(F(" (degrees * 10^-7)"));
     LoRa.print(F(" Long: "));
-    LoRa.print(longitude);
+    LoRa.println(longitude);
     LoRa.print(F(" (degrees * 10^-7)"));
     SerialBT.print(F(" Long: "));
-    SerialBT.print(longitude);
+    SerialBT.println(longitude);
     SerialBT.print(F(" (degrees * 10^-7)"));
 
-    long altitude = myGNSS.getAltitude();
+    int32_t altitude = myGNSS.getAltitude();
     Serial.print(F(" Alt: "));
     Serial.print(altitude);
-    Serial.print(F(" (mm)"));
+    Serial.print(F(" (meters)"));
     
 
-    byte SIV = myGNSS.getSIV();
+    uint8_t SIV = myGNSS.getSIV();
     Serial.print(F(" SIV: "));
     Serial.print(SIV);
     LoRa.print(F(" SIV: "));
