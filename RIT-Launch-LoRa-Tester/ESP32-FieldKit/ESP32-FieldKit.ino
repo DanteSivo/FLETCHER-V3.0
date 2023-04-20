@@ -52,8 +52,8 @@ int LG = 6; // LNA Gain
 // END EDIT ME
 BluetoothSerial SerialBT;
 
-#include <SparkFun_u-blox_GNSS_Arduino_Library.h> //http://librarymanager/All#SparkFun_u-blox_GNSS
-SFE_UBLOX_GNSS myGNSS;
+// #include <SparkFun_u-blox_GNSS_Arduino_Library.h> //http://librarymanager/All#SparkFun_u-blox_GNSS
+// SFE_UBLOX_GNSS myGNSS;
 
 //define the pins used by the transceiver module
 #define ss 5
@@ -86,7 +86,7 @@ void setup()
   SerialBT.begin("RIT-FieldKit-TX"); //Bluetooth device name
   
   Wire.begin();
-
+/*
   //myGNSS.enableDebugging(); // Uncomment this line to enable helpful debug messages on Serial
 
   if (myGNSS.begin() == false) //Connect to the u-blox module using Wire port
@@ -97,7 +97,7 @@ void setup()
 
   myGNSS.setI2COutput(COM_TYPE_UBX); //Set the I2C port to output UBX only (turn off NMEA noise)
   myGNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT); //Save (only) the communications port settings to flash and BBR
-
+*/
   //setup LoRa transceiver module
   LoRa.setPins(ss, rst, dio0);
   
@@ -200,12 +200,14 @@ void loop()
      updateRegisters(SerialBT);
   }
   else {
+    /*
     //Query module only every second. Doing it more often will just cause I2C traffic.
     //The module only responds when a new position is available
     if (millis() - lastTime > 1000)
     {
+    */
       LoRa.beginPacket();
-      
+      /*
       lastTime = millis(); //Update the timer
     
       uint8_t GMThour = myGNSS.getHour();
@@ -270,12 +272,13 @@ void loop()
       LoRa.print(SIV);
       SerialBT.print(F(" SIV: "));
       SerialBT.print(SIV);
-    
+      */
+      LoRa.print("The quick brown fox jumps over the lazy dog - ");
+      LoRa.print(counter);
+      print("The quick brown fox jumps over the lazy dog - ");
+      Serial.println(counter);
+      SerialBT.println(counter);
       LoRa.endPacket();
-    
-      Serial.println();
-      SerialBT.println();
       counter++;
-    }
-  }
+   }
 }
