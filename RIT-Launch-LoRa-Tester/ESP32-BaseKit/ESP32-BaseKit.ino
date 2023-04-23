@@ -27,6 +27,10 @@ unsigned long endTime = 0;
 unsigned long deltaT = 0;
 float bitrate = 0;
 
+float avgBitrate = 0;
+unsigned long totalPacketsRecieved = 0;
+unsigned long avgDeltaT = 0;
+
 char buffer[7];
 int PW = 0; // current TX-PW rating
 int SF = 12; // current SF
@@ -142,6 +146,16 @@ void updateRegisters(Stream& in) {
       print(" PW=");
       itoa(PW, buffer, 10);
       println(buffer);
+      print("Packets Recieved=");
+      utoa(totalPacketsRecieved, buffer, 10);
+      println(buffer);
+      print("Average Time Delta=");
+      utoa(avgDeltaT, buffer, 10);
+      print(buffer);
+      println("ms");
+      print("Average Bitrate=");
+      print(String(avgBitrate));
+      println("bps");
     }
       else {
       Serial.println("Command not recognizied");
@@ -181,17 +195,32 @@ void loop() {
         print("bits");
 
         deltaT = (endTime - startTime);
+        // Calculate new average time
+        if (avgDeltaT != 0) {
+          avgDeltaT = ((avgDeltaT*totalPacketsRecieved)+deltaT)/(totalPacketsRecieved+1);
+        } else {
+          avgDeltaT = deltaT;
+        }
         print(" TIME:");
         print(utoa(deltaT, buffer, 10));
         print("ms ");
         startTime = endTime;
+        
 
         if (deltaT > 0) {
           bitrate = ((float)packetSize*8)/((float)deltaT/1000);
           print(" BITRATE:");
           print(String(bitrate));
           print("bps ");
+
+          if (bitrate != 0) {
+            avgBitrate = ((avgBitrate*totalPacketsRecieved)+bitrate)/(totalPacketsRecieved+1);
+          } else {
+            avgBitrate = bitrate;
+          }
         }
+        
+        totalPacketsRecieved+=1;
         println("");
       }
       
