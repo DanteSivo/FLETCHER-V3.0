@@ -47,7 +47,7 @@ char buffer[7];
 
 int PW = 20; // current TX-PW rating
 int SF = 12; // current SF
-long BW = 150E3; // current BW
+long BW = 500E3; // current BW
 int LG = 6; // LNA Gain
 // END EDIT ME
 BluetoothSerial SerialBT;

@@ -22,10 +22,15 @@ String command;
 String var;
 String val;
 
+unsigned long startTime = 0;
+unsigned long endTime = 0;
+unsigned long deltaT = 0;
+float bitrate = 0;
+
 char buffer[7];
 int PW = 0; // current TX-PW rating
 int SF = 12; // current SF
-long BW = 150E3; // current BW
+long BW = 500E3; // current BW
 int LG = 6; // LNA Gain
 
 BluetoothSerial SerialBT;
@@ -71,6 +76,8 @@ void setup() {
   LoRa.dumpRegisters(Serial);
   LoRa.dumpRegisters(SerialBT);
   println("LoRa Initializing OK!");
+
+  startTime = millis();
 }
 
 void updateRegisters(Stream& in) {
@@ -151,18 +158,42 @@ void loop() {
       // try to parse packet
       int packetSize = LoRa.parsePacket();
       if (packetSize) {
+        
+        endTime = millis(); // GOT A PACKET! Timestamp.
         // received a packet
         Serial.print("Received packet '");
-    
+        
         // read packet
         while (LoRa.available()) {
           String LoRaData = LoRa.readString();
           print(LoRaData); 
         }
+        println("'");
+
     
         // print RSSI of packet
-        print("' with RSSI ");
-        println(itoa(LoRa.packetRssi(), buffer, 10));
+        print("RSSI: ");
+        print(itoa(LoRa.packetRssi(), buffer, 10));
+
+        // print packet size
+        print(" SIZE: ");
+        print(itoa(packetSize*8, buffer, 10));
+        print("bits");
+
+        deltaT = (endTime - startTime);
+        print(" TIME:");
+        print(utoa(deltaT, buffer, 10));
+        print("ms ");
+        startTime = endTime;
+
+        if (deltaT > 0) {
+          bitrate = ((float)packetSize*8)/((float)deltaT/1000);
+          print(" BITRATE:");
+          print(String(bitrate));
+          print("bps ");
+        }
+        println("");
       }
+      
   }
 }
