@@ -188,10 +188,10 @@ void loop() {
         // print RSSI of packet
         print("RSSI: ");
         print(itoa(LoRa.packetRssi(), buffer, 10));
-
+        packetSize = (packetSize*8) + 16; // Factor in sync word size when making calculating
         // print packet size
         print(" SIZE: ");
-        print(itoa(packetSize*8, buffer, 10));
+        print(itoa(packetSize, buffer, 10));
         print("bits");
 
         deltaT = (endTime - startTime);
